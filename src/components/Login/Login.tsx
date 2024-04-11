@@ -13,6 +13,8 @@ import {
 
 import { AxiosError } from "axios";
 
+import {jwtDecode} from "jwt-decode"
+
 import { MdHandyman } from "react-icons/md";
 import { PasswordField } from "./PasswordField";
 import { useMutation } from "@tanstack/react-query";
@@ -34,6 +36,8 @@ const mutation = useMutation({
   mutationFn: loginUser,
   onSuccess: (data: {access_token: string, token_type: string}) => {
     localStorage.setItem('token', data.access_token)
+    const decoded: any = jwtDecode(data.access_token)
+    localStorage.setItem('sp_username', decoded["username"])
     navigate('/profile')
     setIsLoading(false)
   },

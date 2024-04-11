@@ -5,6 +5,7 @@ import LandingPage from './pages/LandingPage'
 import ProfilePage from '././pages/ProfilePage'
 import SignUpPage from './pages/SignUpPage'
 import ServicesPage from './pages/ServicesPage'
+import ServiceDescriptionPage from './pages/ServiceDescriptionPage'
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
         <Route path = "/signup" element = {<SignUpPage />} />
         <Route path = "/profile" element = {<ProfilePage />} />
         <Route path = "/services" element = {<ServicesPage />} />
+        <Route path = "/services/:service_name" element = {<ServiceDescriptionPage/>} />
       </Routes>
     </Box>
   )

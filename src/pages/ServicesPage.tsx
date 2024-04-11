@@ -17,7 +17,7 @@ import { FaSearch } from "react-icons/fa";
 
 import Navbar from "../components/Navbar/Navbar";
 import { NavLink, useNavigate } from "react-router-dom";
-import ServiceCard from "../components/Services/ServiceCard";
+import ServiceTable from "../components/Services/ServiceTable";
 
 export default function ServicesPage() {
   const navigate = useNavigate()
@@ -67,12 +67,7 @@ export default function ServicesPage() {
           </InputGroup>
         </Flex>
         <Flex w = {{base: "xl", md: "100%"}} gap = "4" justifyContent = "center" mt = "8" mx = "auto">
-          <ServiceCard
-            name = "Car Repair"
-            service_provider = "John Doe"
-            description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-            avg_rating = {4.5}
-          />
+          <ServiceTable/>
         </Flex>
       </Box>
     </BaseLayout>

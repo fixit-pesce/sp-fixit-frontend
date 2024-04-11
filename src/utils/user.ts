@@ -7,7 +7,7 @@ type User = {
 }
 
 export const getCurrentUser = () : User | null => {
-  let token = localStorage.getItem('token')
+  const token = localStorage.getItem('token')
   
   if (!token){
     return null
@@ -22,4 +22,11 @@ export const getCurrentUser = () : User | null => {
   }
 
   return user
+}
+
+
+export const logout = () => {
+  localStorage.removeItem('token')
+  localStorage.removeItem('sp_username')
+  window.location.replace("/")
 }
