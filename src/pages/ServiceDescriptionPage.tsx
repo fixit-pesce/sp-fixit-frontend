@@ -37,19 +37,6 @@ export default function ServiceDescriptionPage() {
 
   return (
     <BaseLayout>
-      <Navbar>
-        <Flex alignItems = "center" w = "80%" justifyContent = "space-between" mx = "auto">
-          <Flex alignItems = "center" gap = "4">
-            <Icon as = {MdHandyman} color = "foreground" boxSize = "32px" />
-            <Heading color = "foreground" fontSize = "24px">Fixit - Service Providers</Heading>
-          </Flex>
-          <Flex gap = "4" color = "foreground" fontWeight = "bold" alignItems = "center">
-            <Link as = {NavLink} to = "/profile" _activeLink = {{color: "primary.400"}} _hover = {{textDecoration: "none", color: "primary.500"}}>My Profile</Link>
-            <Link as = {NavLink} to = "/services" _activeLink = {{color: "primary.400"}} _hover = {{textDecoration: "none", color: "primary.500"}}>My Services</Link>
-            <Button bg = "primary.400" color = "foreground" _hover = {{bg: "primary.500"}} onClick = {logout}>Logout</Button>
-          </Flex>
-        </Flex>
-      </Navbar>
       <Box bg = "white" w = "80%" mx = "auto" boxShadow = "lg" rounded = "md" mt = "10" p = "8">
         <Heading textAlign="center" mb = "6">{service_name}</Heading>
         <Tabs variant = "enclosed-colored" isFitted>
@@ -66,7 +53,7 @@ export default function ServiceDescriptionPage() {
               <ServiceReviews sp_username={sp_username} service_name={service_name}/>
             </TabPanel>
             <TabPanel>
-              <ServiceFAQs/>
+              <ServiceFAQs sp_username={sp_username} service_name={service_name}/>
             </TabPanel>
           </TabPanels>
         </Tabs>

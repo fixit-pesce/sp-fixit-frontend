@@ -1,4 +1,4 @@
-export default interface Service{
+export interface Service{
   name: string
   description: string
   price: number
@@ -9,13 +9,13 @@ export default interface Service{
   total_bookings: number
 }
 
-interface FAQ{
+export interface FAQ{
   question: string
   answer: string
 }
 
 
-interface Review{
+export interface Review{
   username: string
   rating: number
   description: string

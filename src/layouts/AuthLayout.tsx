@@ -9,10 +9,9 @@ export default function AuthLayout({children}: AuthLayoutProps) {
     <Flex
       w = "100vw"
       h = "100vh"
-      bg = "primary"
       justifyContent = "center"
       alignItems = "center"
-      bgGradient = "linear(to-br, primary.400, secondary.950)"
+      bgGradient = "linear(to-br, secondary.400, primary.900)"
       >
       {children}
     </Flex>

@@ -71,8 +71,8 @@ export default function ServiceTable() {
   })
 
   return (
-    <TableContainer bg = "foreground" rounded = "lg" boxShadow = "lg">
-      <Table variant = "striped" colorScheme="blue">
+    <TableContainer bg = "white" rounded = "lg" boxShadow = "lg">
+      <Table variant = "striped" colorScheme="gray">
         <TableCaption>Services Provided by {sp_username}</TableCaption>
         <Thead>
           {data && table.getHeaderGroups().map(headerGroup => (

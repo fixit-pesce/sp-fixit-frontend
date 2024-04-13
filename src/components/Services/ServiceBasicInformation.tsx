@@ -11,7 +11,7 @@ import {
   Text
 } from "@chakra-ui/react"
 
-import Service from "../../types";
+import {Service} from "../../types";
 
 interface ServiceBasicInformationProps {
   sp_username: string

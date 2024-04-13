@@ -2,6 +2,7 @@ import {
   Card,
   Center,
   Icon,
+  Text,
   Heading,
   Divider,
   Stack,
@@ -9,6 +10,7 @@ import {
   FormLabel,
   Input,
   Button,
+  Link,
 } from "@chakra-ui/react";
 
 import { AxiosError } from "axios";
@@ -24,7 +26,7 @@ import { BaseSyntheticEvent } from "react";
 
 import { useState } from "react";
 import { useToast } from '@chakra-ui/react'
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 export default function Login() {
 const [isLoading , setIsLoading] = useState(false)
@@ -36,7 +38,7 @@ const mutation = useMutation({
   mutationFn: loginUser,
   onSuccess: (data: {access_token: string, token_type: string}) => {
     localStorage.setItem('token', data.access_token)
-    const decoded: any = jwtDecode(data.access_token)
+    const decoded = jwtDecode(data.access_token)
     localStorage.setItem('sp_username', decoded["username"])
     navigate('/profile')
     setIsLoading(false)
@@ -56,8 +58,8 @@ const mutation = useMutation({
 const handleSubmit = (e: BaseSyntheticEvent) => {
   e.preventDefault()
   setIsLoading(true)
-  let username = e.target.form[0].value
-  let password = e.target.form[2].value
+  const username = e.target.form[0].value
+  const password = e.target.form[2].value
   mutation.mutate({username, password})
 }
 
@@ -78,14 +80,29 @@ return (
               id="username"
               placeholder="Enter your username"
               required
+              border = "2px solid"
+              borderColor = "primary.100"
             />
           </FormControl>
           <PasswordField
             placeholder="Enter your password"
+            border = "2px solid"
+            borderColor = "primary.100"
           />
+          <Text
+            textAlign = "center">
+              {`Don't have an account? `}
+              <Link
+                as = {NavLink}
+                to = "/signup"
+                color = "primary.400"
+                textDecoration = "underline">
+                  Sign Up
+              </Link>
+          </Text>
           <Button
             bg = "primary.400"
-            color= "foreground"
+            color= "white"
             _hover={{bg: "primary.500"}}
             type = "submit"
             onClick={(e) => handleSubmit(e)}
