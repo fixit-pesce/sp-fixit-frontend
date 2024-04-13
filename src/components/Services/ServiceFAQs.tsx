@@ -1,5 +1,6 @@
 import {
   Box,
+  Flex,
   Text,
   Button,
   Accordion,
@@ -14,6 +15,7 @@ import {FAQ} from "../../types"
 import { getServiceFAQs } from '../../api/servicesApi'
 import { useQuery } from '@tanstack/react-query'
 import AddFAQModal from './AddFAQModal'
+import DeleteVerificationModal from './DeleteVerificationModal'
 
 interface ServiceFAQsProps {
   sp_username: string
@@ -22,6 +24,7 @@ interface ServiceFAQsProps {
 
 export default function ServiceFAQs({sp_username, service_name}: ServiceFAQsProps) {
   const {isOpen, onOpen, onClose} = useDisclosure()
+  const {isOpen: isDeleteOpen, onOpen: onDeleteOpen, onClose: onDeleteClose} = useDisclosure()
 
   const {data} = useQuery<[FAQ]>({
     queryKey: ["services", sp_username, service_name, "faqs"],
@@ -30,9 +33,10 @@ export default function ServiceFAQs({sp_username, service_name}: ServiceFAQsProp
 
   return (
     <Box>
-      <Box textAlign = "right" my = "4">
-        <Button bg = "primary.400" color = "foreground" _hover = {{bg: "primary.500"}} onClick = {onOpen}>Add FAQ</Button>
-      </Box>
+      <Flex gap = "4" py = "2" justifyContent="end">
+        <Button bg = "primary.400" color = "white" _hover = {{bg: "primary.500"}} onClick = {onOpen}>Add FAQ</Button>
+        <Button bg = "red.400" color = "white" _hover = {{bg: "red.500"}} onClick = {onOpen}>Delete all FAQs</Button>
+      </Flex>
       <Accordion>
         {data && data.map(faq => (
           <AccordionItem>
@@ -45,6 +49,7 @@ export default function ServiceFAQs({sp_username, service_name}: ServiceFAQsProp
         ))}
       </Accordion>
       <AddFAQModal isOpen = {isOpen} onClose = {onClose}/>
+      <DeleteVerificationModal/>
     </Box>
   )
 }

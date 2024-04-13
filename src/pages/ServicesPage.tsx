@@ -9,23 +9,22 @@ import {
   InputGroup,
   Input,
   InputRightElement,
-  IconButton
+  IconButton,
+  useDisclosure
 } from "@chakra-ui/react"
 
-import { MdHandyman } from "react-icons/md";
 import { FaSearch } from "react-icons/fa";
 
-import Navbar from "../components/Navbar/Navbar";
-import { NavLink, useNavigate } from "react-router-dom";
 import ServiceTable from "../components/Services/ServiceTable";
+import CreateServiceModal from "../components/Services/CreateServiceModal";
 
 export default function ServicesPage() {
-  const navigate = useNavigate()
+  const {isOpen, onOpen, onClose} = useDisclosure()
 
   return (
     <BaseLayout>
       <Box mt = "8">
-        <Flex justifyContent = "center" w = "xl" mx = "auto">
+        <Flex justifyContent = "center" w = "xl" mx = "auto" gap = "4">
           <InputGroup>
             <Input
               id="search"
@@ -47,11 +46,13 @@ export default function ServicesPage() {
               />
             </InputRightElement>
           </InputGroup>
+          <Button bg = "primary.400" color = "white" _hover = {{bg: "primary.500"}} onClick = {onOpen}>Add Service</Button>
         </Flex>
         <Flex w = {{base: "xl", md: "100%"}} gap = "4" justifyContent = "center" mt = "8" mx = "auto">
           <ServiceTable/>
         </Flex>
       </Box>
+      <CreateServiceModal isOpen = {isOpen} onClose = {onClose}/>
     </BaseLayout>
   )
 }
