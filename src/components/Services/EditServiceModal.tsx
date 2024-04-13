@@ -25,30 +25,36 @@ import {
 import { BaseSyntheticEvent, useState } from 'react'
 import { Category } from '../../types'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { createService } from '../../api/servicesApi'
+import {  updateService } from '../../api/servicesApi'
 import { AxiosError } from 'axios'
 
-interface CreateServiceModalProps{
+interface EditServiceModalProps{
   isOpen: boolean
   onClose: () => void
   sp_username: string
   categories: Category[]
+  service: {
+    name: string
+    description: string,
+    price: number,
+    category: string
+  }
 }
 
-export default function CreateServiceModal({isOpen, onClose, sp_username, categories}: CreateServiceModalProps) {
+export default function EditServiceModal({isOpen, onClose, sp_username, categories, service}: EditServiceModalProps) {
   const [isLoading, setIsLoading] = useState(false)
   
   const queryClient = useQueryClient()
   const toast = useToast()
 
   const mutation = useMutation({
-    mutationFn: createService,
+    mutationFn: updateService,
     onSuccess: () => {
       queryClient.invalidateQueries({queryKey: ["services", sp_username]})
       setIsLoading(false)
       onClose()
       toast({
-        title: "Service created successfully",
+        title: "Service updated successfully",
         status: 'success',
         duration: 3000,
         isClosable: true,
@@ -91,19 +97,19 @@ export default function CreateServiceModal({isOpen, onClose, sp_username, catego
                 <FormLabel>
                   Service Name
                 </FormLabel>
-                <Input placeholder = "Enter service name" mb = "4"/>
+                <Input placeholder = "Enter service name" mb = "4" defaultValue = {service.name}/>
               </FormControl>
               <FormControl>
                 <FormLabel>
                   Description
                 </FormLabel>
-                <Textarea placeholder = "Enter description" mb = "4"/>
+                <Textarea placeholder = "Enter description" mb = "4" defaultValue = {service.description}/>
               </FormControl>
               <FormControl>
                 <FormLabel>
                   Price
                 </FormLabel>
-                <NumberInput min={0}>
+                <NumberInput min={0} defaultValue = {service.price}>
                   <NumberInputField />
                   <NumberInputStepper>
                     <NumberIncrementStepper />
@@ -115,7 +121,7 @@ export default function CreateServiceModal({isOpen, onClose, sp_username, catego
                 <FormLabel>
                   Category
                 </FormLabel>
-                <Select placeholder='Select option'>
+                <Select placeholder='Select option' defaultValue = {service.category}>
                   {categories && categories.map((category, index) => (
                     <option value = {category.name} key = {index}>{category.name}</option>
                   ))}

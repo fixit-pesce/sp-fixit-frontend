@@ -22,3 +22,8 @@ export interface Review{
   created_at: string
   updated_at: string | null
 }
+
+export interface Category{
+  name: string
+  icon: SVGElement
+}

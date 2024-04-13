@@ -10,10 +10,10 @@ export default function Navbar() {
             <Image src = "/logo.png" w = "32px" h = "32px"/>
             <Heading color = "white" fontSize = "24px">Fixit - Service Providers</Heading>
           </Flex>
-          <Flex gap = "4" color = "foreground" fontWeight = "bold" alignItems = "center">
+          <Flex gap = "4" color = "white" fontWeight = "bold" alignItems = "center">
             <Link as = {NavLink} to = "/profile" _activeLink = {{color: "secondary.400"}} _hover = {{textDecoration: "none", color: "secondary.500"}} color = "white">My Profile</Link>
             <Link as = {NavLink} to = "/services" _activeLink = {{color: "secondary.400"}} _hover = {{textDecoration: "none", color: "secondary.500"}} color = "white">My Services</Link>
-            <Button bg = "secondary.400" color = "foreground" _hover = {{bg: "secondary.500"}} onClick = {logout}>Logout</Button>
+            <Button bg = "secondary.400" color = "white" _hover = {{bg: "secondary.500"}} onClick = {logout}>Logout</Button>
           </Flex>
         </Flex>
     </Flex>

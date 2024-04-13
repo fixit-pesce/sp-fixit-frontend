@@ -49,7 +49,7 @@ export default function ServiceCard(props: ServiceProps) {
           {props.description}
         </Text>
         <Flex gap = "1" justifyContent = "center" alignItems = "center" p = "2" color = "yellow.400">
-          <Tag color = "foreground" bg = "secondary.400" mr = "2">{props.avg_rating}</Tag>
+          <Tag color = "white" bg = "secondary.400" mr = "2">{props.avg_rating}</Tag>
           {[...Array(full)].map((_, i) => (
             <FaStar key = {i}/>
           ))}
@@ -62,7 +62,7 @@ export default function ServiceCard(props: ServiceProps) {
         </Flex>
       </CardBody>
       <CardFooter justifyContent = "center">
-        <Button bg = "secondary.400" color = "foreground" _hover = {{bg: "secondary.500"}}>Edit</Button>
+        <Button bg = "secondary.400" color = "white" _hover = {{bg: "secondary.500"}}>Edit</Button>
       </CardFooter>
     </Card>
   )

@@ -13,36 +13,39 @@ import {
 } from '@chakra-ui/react'
 
 import { BaseSyntheticEvent, useState } from 'react'
-import { deleteOneAllFAQs } from '../../api/servicesApi'
+import { deleteService } from '../../api/servicesApi'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 
-interface DeleteVerificationModalProps{
+interface DeleteServiceModalProps{
   isOpen: boolean
   onClose: () => void
   sp_username: string
   service_name: string
 }
 
-export default function DeleteVerificationModal({isOpen, onClose, sp_username, service_name}: DeleteVerificationModalProps) {
+export default function DeleteServiceModal({isOpen, onClose, sp_username, service_name}: DeleteServiceModalProps) {
   const [isLoading, setIsLoading] = useState(false)
   
   const toast = useToast()
   const queryClient = useQueryClient()
+  const navigate = useNavigate()
 
   const mutation = useMutation({
-    mutationFn: deleteOneAllFAQs,
+    mutationFn: deleteService,
     onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: ["services", sp_username, service_name]})
+      queryClient.invalidateQueries({queryKey: ["services", sp_username]})
       setIsLoading(false)
       onClose()
       toast({
-        "title": "FAQs deleted successfully",
+        "title": "Service deleted successfully",
         status: 'success',
         duration: 3000,
         isClosable: true,
       })
+      navigate("/services")
     },
     onError: (res: AxiosError) => {
       toast({
@@ -59,7 +62,7 @@ export default function DeleteVerificationModal({isOpen, onClose, sp_username, s
   const handleDelete = (e: BaseSyntheticEvent) => {
     e.preventDefault()
     setIsLoading(true)
-    mutation.mutate({sp_username, service_name})
+    mutation.mutate({sp_username, name: service_name})
   }
 
   return (
@@ -69,10 +72,10 @@ export default function DeleteVerificationModal({isOpen, onClose, sp_username, s
         isLoading ?
         <Spinner/> :
         (<ModalContent>
-        <ModalHeader>Are you sure you want to delete?</ModalHeader>
+        <ModalHeader>Are you sure you want to delete this service?</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <Text>All FAQs will be deleted. This action can't be undone.</Text>
+          <Text>The service and all associated data will be deleted. This action can't be undone.</Text>
         </ModalBody>
         <ModalFooter justifyContent="center" gap = "4">
           <Button onClick={(e) => {handleDelete(e)}} color = "white" bg = "secondary.400" _hover = {{bg: "secondary.500"}}>Yes</Button>

@@ -35,11 +35,11 @@ export default function ServiceFAQs({sp_username, service_name}: ServiceFAQsProp
     <Box>
       <Flex gap = "4" py = "2" justifyContent="end">
         <Button bg = "primary.400" color = "white" _hover = {{bg: "primary.500"}} onClick = {onOpen}>Add FAQ</Button>
-        <Button bg = "red.400" color = "white" _hover = {{bg: "red.500"}} onClick = {onOpen}>Delete all FAQs</Button>
+        <Button bg = "red.500" color = "white" _hover = {{bg: "red.600"}} onClick = {onDeleteOpen}>Delete all FAQs</Button>
       </Flex>
       <Accordion>
-        {data && data.map(faq => (
-          <AccordionItem>
+        {data && data.map((faq, index) => (
+          <AccordionItem key = {index}>
             <AccordionButton>
               <Text fontWeight = "bold" p = "2">{faq.question}</Text>
               <AccordionIcon/>
@@ -48,8 +48,12 @@ export default function ServiceFAQs({sp_username, service_name}: ServiceFAQsProp
           </AccordionItem>
         ))}
       </Accordion>
-      <AddFAQModal isOpen = {isOpen} onClose = {onClose}/>
-      <DeleteVerificationModal/>
+      <AddFAQModal isOpen = {isOpen} onClose = {onClose} sp_username={sp_username} service_name={service_name}/>
+      <DeleteVerificationModal
+        isOpen = {isDeleteOpen}
+        onClose={onDeleteClose}
+        sp_username={sp_username}
+        service_name={service_name}/>
     </Box>
   )
 }

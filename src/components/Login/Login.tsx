@@ -64,7 +64,7 @@ const handleSubmit = (e: BaseSyntheticEvent) => {
 }
 
 return (
-  <Card maxW="md" p = {8} bg = "foreground" boxShadow="lg">
+  <Card maxW="md" p = {8} bg = "white" boxShadow="lg">
     <Stack spacing = {4}>
       <Center>
         <Icon as={MdHandyman} h = "32px" w = "32px"/>

@@ -1,17 +1,22 @@
 import { useQuery } from "@tanstack/react-query"
-import { getService } from "../../api/servicesApi"
+import { getCategories, getService } from "../../api/servicesApi"
 
 import {
   Box,
+  Button,
   Heading,
+  Spacer,
   Stat,
   StatGroup,
   StatLabel,
   StatNumber,
-  Text
+  Text,
+  useDisclosure
 } from "@chakra-ui/react"
 
-import {Service} from "../../types";
+import {Category, Service} from "../../types";
+import EditServiceModal from "./EditServiceModal";
+import { MdEdit } from "react-icons/md";
 
 interface ServiceBasicInformationProps {
   sp_username: string
@@ -24,8 +29,26 @@ export default function ServiceBasicInformation({sp_username, service_name}: Ser
     queryFn: () => getService(sp_username, service_name)
   })
 
+  const {data: categories} = useQuery<Category[]>({
+    queryKey: ["categories"],
+    queryFn: getCategories
+  })
+
+  const {isOpen, onOpen, onClose} = useDisclosure()
+
   return (
     <Box>
+      <Box w = "100%" textAlign="right">
+        <Button
+          rightIcon = {<MdEdit/>}
+          bg = "primary.400"
+          color = "white"
+          _hover = {{bg: "primary.500"}}
+          onClick = {onOpen}
+          >
+            Edit
+          </Button>
+      </Box>
       <StatGroup textAlign = "center" my = "6">
         <Stat>
           <StatLabel>Price</StatLabel>
@@ -45,11 +68,15 @@ export default function ServiceBasicInformation({sp_username, service_name}: Ser
         </Stat>
       </StatGroup>
       <Box>
+        <Heading fontSize = "lg" mb = "2">Category</Heading>
+        <Text>{data?.category}</Text>
+        <Spacer h = "4"/>
         <Heading fontSize = "lg" mb = "2">Product Description</Heading>
         <Text>
           {data?.description}
         </Text>
       </Box>
+      {categories && data && <EditServiceModal isOpen = {isOpen} onClose={onClose} categories={categories} service={data} sp_username={sp_username}/>}
     </Box>
   )
 }
