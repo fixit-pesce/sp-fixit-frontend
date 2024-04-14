@@ -27,3 +27,10 @@ export interface Category{
   name: string
   icon: SVGElement
 }
+
+
+export interface serviceProvider{
+  email: string
+  username: string
+  company_name: string
+}
