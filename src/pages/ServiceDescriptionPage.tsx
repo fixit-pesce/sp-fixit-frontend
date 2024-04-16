@@ -1,10 +1,6 @@
 import {
   Box,
-  Button,
-  Flex,
   Heading,
-  Icon,
-  Link,
   Tabs,
   TabList,
   TabPanels,
@@ -12,28 +8,20 @@ import {
   TabPanel
 } from "@chakra-ui/react"
 
-import { NavLink, useParams, useNavigate } from "react-router-dom"
+import { useParams } from "react-router-dom"
 import BaseLayout from "../layouts/BaseLayout"
-import Navbar from "../components/Navbar/Navbar"
-import { MdHandyman } from "react-icons/md"
 import ServiceBasicInformation from "../components/Services/ServiceBasicInformation"
 import ServiceReviews from "../components/Services/ServiceReviews"
 import ServiceFAQs from "../components/Services/ServiceFAQs"
+import BookedUsers from "../components/Services/BookedUsers"
 
 
 export default function ServiceDescriptionPage() {
-  const navigate = useNavigate()
-
   let {service_name} = useParams()
 
   service_name = service_name ? service_name : ""
 
   const sp_username: string = localStorage.getItem("sp_username") ?? "" as string
-
-  const logout = () => {
-    localStorage.removeItem('token')
-    navigate('/login')
-  }
 
   return (
     <BaseLayout>
@@ -44,6 +32,7 @@ export default function ServiceDescriptionPage() {
             <Tab>Basic Information</Tab>
             <Tab>Reviews</Tab>
             <Tab>FAQs</Tab>
+            <Tab>Services Booked</Tab>
           </TabList>
           <TabPanels>
             <TabPanel>
@@ -54,6 +43,9 @@ export default function ServiceDescriptionPage() {
             </TabPanel>
             <TabPanel>
               <ServiceFAQs sp_username={sp_username} service_name={service_name}/>
+            </TabPanel>
+            <TabPanel>
+              <BookedUsers sp_username={sp_username} service_name={service_name}/>
             </TabPanel>
           </TabPanels>
         </Tabs>

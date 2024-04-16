@@ -22,3 +22,14 @@ export interface Review{
   created_at: string
   updated_at: string | null
 }
+
+
+export interface Booking{
+  service_name: string
+  company_name: string
+  category: string
+  price: number
+  username: string
+  phone_no: string
+  booked_at: string
+}
