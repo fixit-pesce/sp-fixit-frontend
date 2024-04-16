@@ -11,38 +11,40 @@ import {
   useToast,
   Spinner,
 } from '@chakra-ui/react'
-
-import { BaseSyntheticEvent, useState } from 'react'
-import { deleteOneAllFAQs } from '../../api/servicesApi'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useNavigate } from 'react-router-dom'
+import { deleteServiceProvider } from '../../api/serviceProviderApi'
+import { BaseSyntheticEvent, useState } from 'react'
 import { AxiosError } from 'axios'
 
 
-interface DeleteVerificationModalProps{
+interface DeleteProfileModalProps{
   isOpen: boolean
   onClose: () => void
   sp_username: string
-  service_name: string
 }
 
-export default function DeleteVerificationModal({isOpen, onClose, sp_username, service_name}: DeleteVerificationModalProps) {
+
+export default function DeleteProfileModal({isOpen, onClose, sp_username}: DeleteProfileModalProps) {
   const [isLoading, setIsLoading] = useState(false)
   
   const toast = useToast()
   const queryClient = useQueryClient()
+  const navigate = useNavigate()
 
   const mutation = useMutation({
-    mutationFn: deleteOneAllFAQs,
+    mutationFn: deleteServiceProvider,
     onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: ["services", sp_username, service_name]})
+      queryClient.invalidateQueries({queryKey: ["service-provider"]})
       setIsLoading(false)
       onClose()
       toast({
-        "title": "FAQs deleted successfully",
+        "title": "Service Provider deleted successfully",
         status: 'success',
         duration: 3000,
         isClosable: true,
       })
+      navigate("/")
     },
     onError: (res: AxiosError) => {
       toast({
@@ -59,27 +61,28 @@ export default function DeleteVerificationModal({isOpen, onClose, sp_username, s
   const handleDelete = (e: BaseSyntheticEvent) => {
     e.preventDefault()
     setIsLoading(true)
-    mutation.mutate({sp_username, service_name})
+    mutation.mutate(sp_username)
   }
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       {
-        isLoading ?
-        <Spinner/> :
-        (<ModalContent>
-        <ModalHeader>Are you sure you want to delete?</ModalHeader>
+      isLoading ?
+      <Spinner/> :
+      (<ModalContent>
+        <ModalHeader>Are you sure you want to delete {sp_username}?</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <Text>All FAQs will be deleted. This action can't be undone.</Text>
+          <Text>
+          All the services associated with this service provider will the deleted. This action cannot be undone.
+          </Text>
         </ModalBody>
         <ModalFooter justifyContent="center" gap = "4">
-          <Button onClick={(e) => {handleDelete(e)}} color = "white" bg = "secondary.400" _hover = {{bg: "secondary.500"}}>Yes</Button>
-          <Button onClick={onClose} color = "white" bg = "red.500" _hover = {{bg: "red.600"}}>No</Button>
+          <Button color = "white" bg = "secondary.400" _hover = {{bg: "secondary.500"}} onClick = {(e) => handleDelete(e)}>Yes</Button>
+          <Button colorScheme = "red" onClick = {onClose}>No</Button>
         </ModalFooter>
-      </ModalContent>)
-      }
-    </Modal>
+      </ModalContent>)}
+      </Modal>
   )
 }

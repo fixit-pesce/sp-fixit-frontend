@@ -23,6 +23,18 @@ export interface Review{
   updated_at: string | null
 }
 
+export interface Category{
+  name: string
+  icon: SVGElement
+}
+
+
+export interface serviceProvider{
+  email: string
+  username: string
+  company_name: string
+}
+
 
 export interface Booking{
   service_name: string

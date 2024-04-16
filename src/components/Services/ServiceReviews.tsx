@@ -33,7 +33,7 @@ export default function ServiceReviews({sp_username, service_name}: ServiceRevie
   return (
     <Flex flexDir = "column" gap = "4">
       {data && data.map(review => (
-        <Box boxShadow = "lg" bg = "blue.100">
+        <Box boxShadow = "lg" bg = "gray.100">
           <Text p = "2">{review.username}</Text>
           <Flex alignItems="center" gap = "4"  p = "2">
             <RatingDisplay rating = {review.rating}/>
