@@ -16,12 +16,16 @@ import ServiceBasicInformation from "../components/Services/ServiceBasicInformat
 import ServiceReviews from "../components/Services/ServiceReviews"
 import ServiceFAQs from "../components/Services/ServiceFAQs"
 import BookedUsers from "../components/Services/BookedUsers"
+import { MdDelete } from "react-icons/md"
+import DeleteServiceModal from "../components/Services/DeleteServiceModal"
 
 
 export default function ServiceDescriptionPage() {
   let {service_name} = useParams()
   service_name = service_name ? service_name : ""
   const sp_username: string = localStorage.getItem("sp_username") ?? "" as string
+
+  const {isOpen, onOpen, onClose} = useDisclosure()
 
   return (
     <BaseLayout>
