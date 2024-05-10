@@ -15,18 +15,15 @@ import {
   useToast,
 } from "@chakra-ui/react"
 import { FaCheck } from "react-icons/fa"
-import axios from "axios"
+import {
+  useApproveBookingMutation,
+  useCancelBookingMutation,
+  useCompleteBookingMutation,
+} from "../../api/bookings.api"
 
 interface BookedUsersProps {
   sp_username: string
   service_name: string
-}
-
-const approveBooking = async (booking_id: string) => {
-  const response = await axios.post(
-    `${import.meta.env.VITE_API_URL}/services/bookings/${booking_id}/approve`
-  )
-  return response.data
 }
 
 export default function Bookings({
@@ -39,6 +36,73 @@ export default function Bookings({
   })
 
   const toast = useToast()
+
+  const approveMutation = useApproveBookingMutation(sp_username, service_name)
+  const cancelMutation = useCancelBookingMutation(sp_username, service_name)
+  const completeMutation = useCompleteBookingMutation(sp_username, service_name)
+
+  const handleApproveBooking = (booking_id: string) => {
+    approveMutation.mutate(booking_id, {
+      onSuccess: () => {
+        toast({
+          title: "Booking approved",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        })
+      },
+      onError(error) {
+        toast({
+          title: `Error: ${error.message}`,
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        })
+      },
+    })
+  }
+
+  const handleCancelBooking = (booking_id: string) => {
+    cancelMutation.mutate(booking_id, {
+      onSuccess: () => {
+        toast({
+          title: "Booking cancelled",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        })
+      },
+      onError(error) {
+        toast({
+          title: `Error: ${error.message}`,
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        })
+      },
+    })
+  }
+
+  const handleCompleteBooking = (booking_id: string) => {
+    completeMutation.mutate(booking_id, {
+      onSuccess: () => {
+        toast({
+          title: "Booking completed",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        })
+      },
+      onError(error) {
+        toast({
+          title: `Error: ${error.message}`,
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        })
+      },
+    })
+  }
 
   return (
     <Box>
@@ -69,22 +133,39 @@ export default function Bookings({
                   <Td>{booking.status}</Td>
                   <Td>
                     {booking.status === "PENDING" && (
+                      <>
+                        <IconButton
+                          size="sm"
+                          aria-label="Approve"
+                          title="Approve booking"
+                          icon={<FaCheck />}
+                          colorScheme="green"
+                          onClick={() =>
+                            handleApproveBooking(booking.booking_id)
+                          }
+                        />
+                        <IconButton
+                          size="sm"
+                          aria-label="Cancel"
+                          title="Cancel booking"
+                          icon={<FaCheck />}
+                          colorScheme="red"
+                          onClick={() =>
+                            handleCancelBooking(booking.booking_id)
+                          }
+                        />
+                      </>
+                    )}
+                    {booking.status === "APPROVED" && (
                       <IconButton
                         size="sm"
-                        aria-label="Approve"
-                        title="Approve booking"
+                        aria-label="Complete"
+                        title="Complete booking"
                         icon={<FaCheck />}
                         colorScheme="green"
-                        onClick={() => {
-                          const res = approveBooking(booking.booking_id)
-                          console.log(res)
-                          toast({
-                            title: "Booking approved successfully",
-                            status: "success",
-                            duration: 3000,
-                            isClosable: true,
-                          })
-                        }}
+                        onClick={() =>
+                          handleCompleteBooking(booking.booking_id)
+                        }
                       />
                     )}
                   </Td>
