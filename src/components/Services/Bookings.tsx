@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query"
 import { Booking } from "../../types"
 import { getServiceBooking } from "../../api/servicesApi"
+import { IoClose } from "react-icons/io5"
 
 import {
   Box,
@@ -133,7 +134,7 @@ export default function Bookings({
                   <Td>{booking.status}</Td>
                   <Td>
                     {booking.status === "PENDING" && (
-                      <>
+                      <Flex gap="2">
                         <IconButton
                           size="sm"
                           aria-label="Approve"
@@ -148,13 +149,13 @@ export default function Bookings({
                           size="sm"
                           aria-label="Cancel"
                           title="Cancel booking"
-                          icon={<FaCheck />}
+                          icon={<IoClose />}
                           colorScheme="red"
                           onClick={() =>
                             handleCancelBooking(booking.booking_id)
                           }
                         />
-                      </>
+                      </Flex>
                     )}
                     {booking.status === "APPROVED" && (
                       <IconButton

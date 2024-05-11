@@ -8,12 +8,16 @@ import {
   FormControl,
   FormLabel,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react"
 
-import { getServiceProvider } from "../api/serviceProviderApi"
+import {
+  getServiceProvider,
+  useUpdateServiceProviderMutation,
+} from "../api/serviceProviderApi"
 import { serviceProvider } from "../types"
 import { useQuery } from "@tanstack/react-query"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import DeleteProfileModal from "../components/Profile/DeleteProfileModal"
 import EditableTextInput from "../components/EditableTextInput"
 import ChangePasswordModal from "../components/Profile/ChangePasswordModal"
@@ -33,8 +37,51 @@ export default function ProfilePage() {
     onClose: onDeleteClose,
   } = useDisclosure()
 
+  const updateMutation = useUpdateServiceProviderMutation(sp_username)
+
+  const toast = useToast()
+
   const [companyName, setCompanyName] = useState(data?.company_name as string)
   const [email, setEmail] = useState(data?.email as string)
+
+  useEffect(() => {
+    setCompanyName(data?.company_name as string)
+    setEmail(data?.email as string)
+  }, [data])
+
+  const handleSubmit = () => {
+    if (!companyName || !email) {
+      toast({
+        title: "Please fill in all fields",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      })
+      return
+    }
+
+    updateMutation.mutate(
+      { company_name: companyName, email },
+      {
+        onSuccess: () => {
+          toast({
+            title: "Profile updated successfully",
+            status: "success",
+            duration: 3000,
+            isClosable: true,
+          })
+        },
+        onError: () => {
+          toast({
+            title: "Error updating profile",
+            status: "error",
+            duration: 3000,
+            isClosable: true,
+          })
+        },
+      }
+    )
+  }
 
   return (
     <BaseLayout>
@@ -64,6 +111,7 @@ export default function ProfilePage() {
                 color="white"
                 bg="secondary.400"
                 _hover={{ bg: "secondary.500" }}
+                onClick={handleSubmit}
               >
                 Save
               </Button>

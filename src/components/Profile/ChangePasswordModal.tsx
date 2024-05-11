@@ -10,6 +10,7 @@ import {
   FormLabel,
   Input,
   Button,
+  useToast,
 } from "@chakra-ui/react"
 import { useState } from "react"
 import { useChangePasswordMutation } from "../../api/LoginApi"
@@ -27,12 +28,32 @@ export default function ChangePasswordModal({
   const [newP, setPNew] = useState("")
   const [confirm, setConfirm] = useState("")
 
+  const toast = useToast()
+
   const passwordMutation = useChangePasswordMutation(sp_username)
 
   const handleSubmit = () => {
     passwordMutation.mutate(
       { current_password: old, new_password: newP },
-      { onSuccess: onClose }
+      {
+        onSuccess: () => {
+          toast({
+            title: "Password changed successfully",
+            status: "success",
+            duration: 3000,
+            isClosable: true,
+          })
+          onClose()
+        },
+        onError: () => {
+          toast({
+            title: "Error changing password",
+            status: "error",
+            duration: 3000,
+            isClosable: true,
+          })
+        },
+      }
     )
   }
 
@@ -68,13 +89,8 @@ export default function ChangePasswordModal({
             />
           </FormControl>
         </ModalBody>
-        <ModalFooter>
-          <Button
-            color="white"
-            bg="secondary.400"
-            _hover={{ bg: "primary.500" }}
-            onClick={handleSubmit}
-          >
+        <ModalFooter justifyContent="center" gap="4">
+          <Button colorScheme="green" onClick={handleSubmit}>
             Submit
           </Button>
           <Button colorScheme="red" onClick={onClose}>
