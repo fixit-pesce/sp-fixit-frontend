@@ -130,7 +130,11 @@ export default function Bookings({
                   <Td>{booking.category}</Td>
                   <Td>{booking.price}</Td>
                   <Td>{booking.phone_no}</Td>
-                  <Td>{booking.payment_method["type"]}</Td>
+                  <Td>
+                    {`${booking.payment_method.type}`}{" "}
+                    {booking.payment_method.type === "Card" &&
+                      `- ${booking.payment_method.card_no}`}
+                  </Td>
                   <Td>{booking.status}</Td>
                   <Td>
                     {booking.status === "PENDING" && (

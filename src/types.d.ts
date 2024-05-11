@@ -40,7 +40,10 @@ export interface Booking {
   price: number
   username: string
   phone_no: string
-  payment_method: { [key: string]: string }
+  payment_method: {
+    type: string
+    card_no: string
+  }
   booking_id: string
   status: string
   booked_at: string
