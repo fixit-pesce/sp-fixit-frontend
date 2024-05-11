@@ -22,12 +22,16 @@ export const createService = async ({
   description,
   price,
   category,
+  locality,
+  city,
 }: {
   sp_username: string
   name: string
   description: string
   price: number
   category: string
+  locality: string
+  city: string
 }) => {
   const response = await axios.post(
     `${import.meta.env.VITE_API_URL}/service-providers/${sp_username}/services`,
@@ -36,6 +40,10 @@ export const createService = async ({
       description,
       price,
       category,
+      location: {
+        locality,
+        city,
+      },
     }
   )
   return response.data
