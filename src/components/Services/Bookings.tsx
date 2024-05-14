@@ -4,7 +4,6 @@ import { getServiceBooking } from "../../api/servicesApi"
 import { IoClose } from "react-icons/io5"
 
 import {
-  Box,
   Table,
   Tbody,
   Td,
@@ -14,6 +13,7 @@ import {
   Th,
   IconButton,
   useToast,
+  TableContainer,
 } from "@chakra-ui/react"
 import { FaCheck } from "react-icons/fa"
 import {
@@ -106,80 +106,72 @@ export default function Bookings({
   }
 
   return (
-    <Box>
+    <TableContainer overflowX="auto">
       {data && (
-        <Flex bg="gray.100" gap="2" flexDirection="column">
-          <Table variant="striped" colorScheme="blue">
-            <Thead>
+        <Table variant="striped" colorScheme="blue">
+          <Thead>
+            <Tr>
+              <Th>Company Name</Th>
+              <Th>Username</Th>
+              <Th>Category</Th>
+              <Th>Price</Th>
+              <Th>Phone Number</Th>
+              <Th>Payment Method</Th>
+              <Th>Status</Th>
+              <Th>Actions</Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {data.map((booking) => (
               <Tr>
-                <Th>Company Name</Th>
-                <Th>Username</Th>
-                <Th>Category</Th>
-                <Th>Price</Th>
-                <Th>Phone Number</Th>
-                <Th>Payment Method</Th>
-                <Th>Status</Th>
-                <Th>Actions</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {data.map((booking) => (
-                <Tr>
-                  <Td>{booking.company_name}</Td>
-                  <Td>{booking.username}</Td>
-                  <Td>{booking.category}</Td>
-                  <Td>{booking.price}</Td>
-                  <Td>{booking.phone_no}</Td>
-                  <Td>
-                    {`${booking.payment_method.type}`}{" "}
-                    {booking.payment_method.type === "Card" &&
-                      `- ${booking.payment_method.card_no}`}
-                  </Td>
-                  <Td>{booking.status}</Td>
-                  <Td>
-                    {booking.status === "PENDING" && (
-                      <Flex gap="2">
-                        <IconButton
-                          size="sm"
-                          aria-label="Approve"
-                          title="Approve booking"
-                          icon={<FaCheck />}
-                          colorScheme="green"
-                          onClick={() =>
-                            handleApproveBooking(booking.booking_id)
-                          }
-                        />
-                        <IconButton
-                          size="sm"
-                          aria-label="Cancel"
-                          title="Cancel booking"
-                          icon={<IoClose />}
-                          colorScheme="red"
-                          onClick={() =>
-                            handleCancelBooking(booking.booking_id)
-                          }
-                        />
-                      </Flex>
-                    )}
-                    {booking.status === "APPROVED" && (
+                <Td>{booking.company_name}</Td>
+                <Td>{booking.username}</Td>
+                <Td>{booking.category}</Td>
+                <Td>{booking.price}</Td>
+                <Td>{booking.phone_no}</Td>
+                <Td>
+                  {`${booking.payment_method.type}`}{" "}
+                  {booking.payment_method.type === "Card" &&
+                    `- ${booking.payment_method.card_no}`}
+                </Td>
+                <Td>{booking.status}</Td>
+                <Td>
+                  {booking.status === "PENDING" && (
+                    <Flex gap="2">
                       <IconButton
                         size="sm"
-                        aria-label="Complete"
-                        title="Complete booking"
+                        aria-label="Approve"
+                        title="Approve booking"
                         icon={<FaCheck />}
                         colorScheme="green"
-                        onClick={() =>
-                          handleCompleteBooking(booking.booking_id)
-                        }
+                        onClick={() => handleApproveBooking(booking.booking_id)}
                       />
-                    )}
-                  </Td>
-                </Tr>
-              ))}
-            </Tbody>
-          </Table>
-        </Flex>
+                      <IconButton
+                        size="sm"
+                        aria-label="Cancel"
+                        title="Cancel booking"
+                        icon={<IoClose />}
+                        colorScheme="red"
+                        onClick={() => handleCancelBooking(booking.booking_id)}
+                      />
+                    </Flex>
+                  )}
+                  {booking.status === "APPROVED" && (
+                    <IconButton
+                      size="sm"
+                      aria-label="Complete"
+                      title="Complete booking"
+                      icon={<FaCheck />}
+                      colorScheme="green"
+                      onClick={() => handleCompleteBooking(booking.booking_id)}
+                    />
+                  )}
+                </Td>
+              </Tr>
+            ))}
+          </Tbody>
+        </Table>
       )}
-    </Box>
+    </TableContainer>
   )
 }
